@@ -5,6 +5,8 @@ import { AuthModule } from './auth/auth.module';
 import { AppController } from './app.controller';
 import { UsersModule } from './users/users.module';
 import { AppService } from './app.service';
+import { QuizResultsModule } from './quiz-result/quiz-results.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -14,6 +16,8 @@ import { AppService } from './app.service';
     MongooseModule.forRoot(process.env.MONGO_URI),
     AuthModule,
     UsersModule,
+    QuizResultsModule,
+    SeedModule,
   ],
   controllers: [AppController],
   providers: [AppService],
