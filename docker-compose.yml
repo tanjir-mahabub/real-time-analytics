@@ -10,7 +10,7 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=${MONGO_URI}
+      - MONGO_URI=${MONGO_URI_PROD}
       - MONGO_USERNAME=${MONGO_USERNAME}
       - MONGO_PASSWORD=${MONGO_PASSWORD}
     volumes:
@@ -41,6 +41,6 @@ networks:
     driver: bridge
 
 x-environment-variables:
-  MONGO_URI: ${MONGO_URI}
+  MONGO_URI: ${MONGO_URI_PROD}
   MONGO_USERNAME: ${MONGO_USERNAME}
   MONGO_PASSWORD: ${MONGO_PASSWORD}
