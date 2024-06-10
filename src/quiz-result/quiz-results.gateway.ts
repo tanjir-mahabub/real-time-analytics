@@ -8,7 +8,11 @@ import {
 import { Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*',
+  },
+})
 export class QuizResultsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {

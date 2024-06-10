@@ -9,7 +9,7 @@ import { Request, Response, NextFunction } from 'express';
 @Injectable()
 export class MethodValidatorMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    const allowedMethods = ['GET'];
+    const allowedMethods = ['GET', 'POST'];
     if (!allowedMethods.includes(req.method)) {
       throw new HttpException(
         `Method ${req.method} not allowed for this route`,
