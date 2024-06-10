@@ -1,34 +1,35 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserController } from './users.controller';
 import { UserService } from './users.service';
-import { Reflector } from '@nestjs/core';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
-import { Role } from '../auth/roles.enum';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 describe('UserController', () => {
   let userController: UserController;
 
   beforeEach(async () => {
-    const mockUserService = {
-      getProfile: jest.fn().mockImplementation((req) => req.user),
-      getAdminData: jest.fn().mockReturnValue({ message: 'Admin data' }),
-    };
-
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
       providers: [
         {
           provide: UserService,
-          useValue: mockUserService,
+          useValue: {
+            getProfile: jest
+              .fn()
+              .mockReturnValue({ username: 'testUser', role: 'user' }),
+            getAdminData: jest.fn().mockReturnValue({ message: 'Admin data' }),
+          },
         },
-        Reflector,
       ],
     })
       .overrideGuard(JwtAuthGuard)
-      .useValue({ canActivate: () => true })
+      .useValue({
+        canActivate: jest.fn(() => true),
+      })
       .overrideGuard(RolesGuard)
-      .useValue({ canActivate: () => true })
+      .useValue({
+        canActivate: jest.fn(() => true),
+      })
       .compile();
 
     userController = module.get<UserController>(UserController);
@@ -38,13 +39,13 @@ describe('UserController', () => {
     expect(userController).toBeDefined();
   });
 
-  it('should return the user profile', () => {
-    const req = { user: { username: 'testuser', role: Role.User } };
+  it('should return user profile', () => {
+    const req = { user: { username: 'testUser', role: 'user' } };
     expect(userController.getProfile(req)).toEqual(req.user);
   });
 
   it('should return admin data', () => {
-    const req = { user: { username: 'admin', role: Role.Admin } };
+    const req = { user: { username: 'adminUser', role: 'admin' } };
     expect(userController.getAdminData(req)).toEqual({ message: 'Admin data' });
   });
 });

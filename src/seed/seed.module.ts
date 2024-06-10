@@ -5,11 +5,16 @@ import { SeedService } from './seed.service';
 import { UserService } from 'src/users/users.service';
 import { QuizResult, QuizResultSchema } from 'src/schema/quiz-result.schema';
 import { QuizResultsModule } from 'src/quiz-result/quiz-results.module';
+import { ConfigModule } from '@nestjs/config';
 
-console.log('Connecting to MongoDB with URI:', process.env.MONGO_URI);
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/real-time-analytics'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(
+      process.env.MONGO_URI_DEV + process.env.MONGO_DB_NAME,
+    ),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     MongooseModule.forFeature([
       { name: QuizResult.name, schema: QuizResultSchema },

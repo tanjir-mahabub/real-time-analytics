@@ -14,7 +14,7 @@ import { MethodValidatorMiddleware } from 'src/middleware/method-validator.middl
   ],
   controllers: [QuizResultsController],
   providers: [QuizResultsService, QuizResultsGateway],
-  exports: [QuizResultsService],
+  exports: [QuizResultsService, QuizResultsGateway],
 })
 export class QuizResultsModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
