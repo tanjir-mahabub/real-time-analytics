@@ -13,10 +13,7 @@ import { SeedModule } from './seed/seed.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(
-      process.env.MONGO_URI_DEV + process.env.MONGO_DB_NAME ||
-        process.env.MONGO_URI_PROD,
-    ),
+    MongooseModule.forRoot(process.env.MONGO_URI),
     AuthModule,
     UsersModule,
     QuizResultsModule,
